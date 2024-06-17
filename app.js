@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const Listing = require("./models/listing.js")
 const app = express();
 const port = 3000;
 
@@ -12,7 +12,7 @@ main().then(()=>{
 .catch(err => {
     consol.log(err);
 });
-
+// create a function for conneting database
 async function main(){
     await mongoose.connect(MONGO_URL);
 }
@@ -22,6 +22,15 @@ app.listen(3000, ()=>{
 });
 
 // Example route
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.get("/testListing", async(req, res) => {
+    let sampleListing = new Listing ({
+        title: "My new villa",
+        description: "By the beach",
+        price: 1200,
+        location: "Goa",
+        country: "india",
+    })
+   await sampleListing.save();
+   consol.log("Save");
+   res.send("Successful testing")
   });
